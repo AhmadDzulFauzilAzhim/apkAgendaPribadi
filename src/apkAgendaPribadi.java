@@ -1,3 +1,15 @@
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,12 +21,16 @@
  * @author Lenovo
  */
 public class apkAgendaPribadi extends javax.swing.JFrame {
-
+        private DefaultListModel<String> listModel;
+   private HashMap<String, String> agendaMap; 
     /**
      * Creates new form apkAgendaPribadi
      */
     public apkAgendaPribadi() {
         initComponents();
+        listModel = new DefaultListModel<>();
+        listAgenda.setModel(listModel);
+        agendaMap = new HashMap<>();
     }
 
     /**
@@ -28,58 +44,111 @@ public class apkAgendaPribadi extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listAgenda = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        judulAgenda = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        areaAgenda = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(jList1);
+        listAgenda.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listAgendaValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(listAgenda);
 
         jButton1.setText("Hapus");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Judul:");
 
         jLabel2.setText("Agenda:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        areaAgenda.setColumns(20);
+        areaAgenda.setRows(5);
+        jScrollPane2.setViewportView(areaAgenda);
 
         jButton2.setText("Tambah");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Edit");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Hilangkan");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Keluar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("export");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("import");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(36, 36, 36)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(36, 36, 36)
+                                .addComponent(jButton3))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(judulAgenda, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
+                        .addComponent(jButton7))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(121, 121, 121))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -107,9 +176,16 @@ public class apkAgendaPribadi extends javax.swing.JFrame {
                         .addGap(99, 99, 99)
                         .addComponent(jLabel2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(judulAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(jButton6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton7)))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -133,7 +209,7 @@ public class apkAgendaPribadi extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,6 +222,167 @@ public class apkAgendaPribadi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        tambahAgenda();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        ubahAgenda();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        hapusAgenda();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        judulAgenda.setText("");
+        areaAgenda.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        eksporKeFileTxt();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        imporDariFileTxt();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void listAgendaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listAgendaValueChanged
+        // TODO add your handling code here:
+        int selectedIndex = listAgenda.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String selectedJudul = listAgenda.getSelectedValue();
+            areaAgenda.setText(agendaMap.get(selectedJudul));
+        }
+    }//GEN-LAST:event_listAgendaValueChanged
+
+    private void tambahAgenda() {
+    String judul = judulAgenda.getText();
+        String isi = areaAgenda.getText();
+
+        if (judul.isEmpty() || isi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Judul dan Isi Agenda Harus Diisi", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (agendaMap.containsKey(judul)) {
+            JOptionPane.showMessageDialog(this, "Judul Agenda Sudah Ada", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            agendaMap.put(judul, isi);
+            listModel.addElement(judul);
+            JOptionPane.showMessageDialog(this, "Agenda Ditambahkan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+        }
+}
+
+private void ubahAgenda() {
+    String judul = judulAgenda.getText();
+        String isi = areaAgenda.getText();
+
+        int selectedIndex = listAgenda.getSelectedIndex();
+        if (selectedIndex != -1) {
+            if (judul.isEmpty() || isi.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Judul dan Isi Agenda Harus Diisi", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String oldJudul = listAgenda.getSelectedValue();
+                agendaMap.remove(oldJudul);
+                agendaMap.put(judul, isi);
+                listModel.setElementAt(judul, selectedIndex);
+                areaAgenda.setText("");
+                JOptionPane.showMessageDialog(this, "Agenda Berhasil Diperbarui", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih Agenda yang akan Diubah", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+}
+
+private void hapusAgenda() {
+    int selectedIndex = listAgenda.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String selectedJudul = listAgenda.getSelectedValue();
+            agendaMap.remove(selectedJudul);
+            listModel.remove(selectedIndex);
+            judulAgenda.setText("");
+            areaAgenda.setText("");
+            JOptionPane.showMessageDialog(this, "Agenda Dihapus", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih Agenda yang akan Dihapus", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+}
+
+private void eksporKeFileTxt() {
+    int selectedIndex = listAgenda.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String selectedJudul = listAgenda.getSelectedValue();
+            String isi = agendaMap.get(selectedJudul);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Simpan Agenda");
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                    writer.write("Judul: " + selectedJudul);
+                    writer.newLine();
+                    writer.write(isi);
+                    JOptionPane.showMessageDialog(this, "Agenda Disimpan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menyimpan file", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih Agenda yang ingin disimpan", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+}
+
+  private void imporDariFileTxt() {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Muat Agenda");
+    if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            
+            String judul = reader.readLine().substring(7); 
+            StringBuilder isi = new StringBuilder();  
+            
+            String line;
+            while ((line = reader.readLine()) != null) {
+                isi.append(line).append("\n");
+            }
+            judulAgenda.setText(judul);
+      
+            areaAgenda.setText(isi.toString()); 
+            
+           
+            if (!agendaMap.containsKey(judul)) {
+                agendaMap.put(judul, isi.toString()); 
+                listModel.addElement(judul); 
+                JOptionPane.showMessageDialog(this, "Agenda Dimuat", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Agenda dengan judul yang sama sudah ada", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memuat agenda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+private void tampilkanKonten() {
+    int selectedIndex = listAgenda.getSelectedIndex();
+        if (selectedIndex >= 0) {
+            String[] parts = agendaMap.get(selectedIndex).split(";", 2);
+            if (parts.length == 2) {
+                judulAgenda.setText(parts[0]);
+                areaAgenda.setText(parts[1]);
+            }
+        }
+}
     /**
      * @param args the command line arguments
      */
@@ -182,18 +419,20 @@ public class apkAgendaPribadi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaAgenda;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField judulAgenda;
+    private javax.swing.JList<String> listAgenda;
     // End of variables declaration//GEN-END:variables
 }
