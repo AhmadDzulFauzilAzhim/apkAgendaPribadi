@@ -1,2 +1,2 @@
-# AhmadDzulFauzilAzhim_2210010389_UTS
+# Aplikasi Agenda Pribadi
  UTS PBO2_AplikasiAgendaPribadi
